@@ -44,4 +44,4 @@ app-example
 
 #from react
 /config/api.js
-.env
+.env*
