@@ -2,10 +2,14 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const Weight = require("../models/Weight");
 
 const router = express.Router();
 
-// REGISTER
+// helper for today's date
+const getToday = () => new Date().toISOString().split("T")[0];
+
+//register
 router.post("/register", async (req, res) => {
   try {
     const {
@@ -36,13 +40,23 @@ router.post("/register", async (req, res) => {
 
     await newUser.save();
 
+    //create weight record
+    if (weight && Number(weight) > 0) {
+      await new Weight({
+        userId: newUser._id,
+        weight: Number(weight),
+        date: getToday(),
+      }).save();
+    }
+
     res.json({ msg: "User registered successfully" });
   } catch (err) {
+    console.log(err);
     res.status(500).json({ error: err.message });
   }
 });
 
-// LOGIN
+//login
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;

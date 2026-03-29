@@ -7,7 +7,7 @@ const auth = require("../middleware/authMiddleware");
 const getToday = () => new Date().toISOString().split("T")[0];
 
 
-// ✅ GET current calories
+//get current calories
 router.get("/", auth, async (req, res) => {
   try {
     const today = getToday();
@@ -36,7 +36,7 @@ router.get("/", auth, async (req, res) => {
 });
 
 
-// ✅ SET daily calories
+//set daily calories
 router.post("/set", auth, async (req, res) => {
   try {
     const { dailyLimit } = req.body;
@@ -72,7 +72,7 @@ router.post("/set", auth, async (req, res) => {
 });
 
 
-// ✅ ADD calories
+//add calories
 router.post("/add", auth, async (req, res) => {
   try {
     const { amount } = req.body;
@@ -109,7 +109,7 @@ router.post("/add", auth, async (req, res) => {
 });
 
 
-// CLEAR calories by setting consumed to 0
+//clear calories by setting consumed to 0
 router.post("/clear", auth, async (req, res) => {
   try {
     const today = getToday();
@@ -139,7 +139,7 @@ router.post("/clear", auth, async (req, res) => {
 });
 
 
-// ✅ WEEKLY (unchanged)
+// weekly calories (unchanged)
 router.get("/weekly", auth, async (req, res) => {
   try {
     const last7Days = [];
