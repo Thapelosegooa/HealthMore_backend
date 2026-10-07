@@ -3,6 +3,9 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const Weight = require("../models/Weight");
+const auth = require("../middleware/authMiddleware");
+
+
 
 const router = express.Router();
 
@@ -78,14 +81,95 @@ router.post("/login", async (req, res) => {
     res.json({
       token,
       user: {
-        id: user._id,
-        email: user.email,
-        goal: user.goal,
-      },
+      id: user._id,
+      email: user.email,
+      age: user.age,
+      height: user.height,
+      weight: user.weight,
+      goal: user.goal,
+      goalWeight: user.goalWeight,
+    },
+
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
+
+
+// Update profile
+router.put("/profile", auth, async (req, res) => {
+  try {
+    const {
+      age,
+      height,
+      goal,
+      goalWeight,
+    } = req.body;
+
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    // Validate values
+    if (
+      age === undefined ||
+      height === undefined ||
+      goal === undefined ||
+      goalWeight === undefined
+    ) {
+      return res.status(400).json({
+        msg: "Age, height, goal and goal weight are required",
+      });
+    }
+
+    if (Number(age) <= 0) {
+      return res.status(400).json({
+        msg: "Invalid age",
+      });
+    }
+
+    if (Number(height) <= 0) {
+      return res.status(400).json({
+        msg: "Invalid height",
+      });
+    }
+
+    if (Number(goalWeight) <= 0) {
+      return res.status(400).json({
+        msg: "Invalid goal weight",
+      });
+    }
+
+    // Update profile
+    user.age = Number(age);
+    user.height = Number(height);
+    user.goal = goal;
+    user.goalWeight = Number(goalWeight);
+
+    await user.save();
+
+    res.json({
+      msg: "Profile updated successfully",
+      user: {
+        id: user._id,
+        email: user.email,
+        age: user.age,
+        height: user.height,
+        weight: user.weight,
+        goal: user.goal,
+        goalWeight: user.goalWeight,
+      },
+    });
+  } catch (err) {
+    console.log("Profile update error:", err);
+    res.status(500).json({
+      error: err.message,
+    });
+  }
+});
+
 
 module.exports = router;

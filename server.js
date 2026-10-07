@@ -6,6 +6,8 @@ require("dotenv").config();
 const authRoutes = require("./routes/auth");
 const calorieRoutes = require("./routes/calories");
 const weightRoutes = require("./routes/weight");
+const feedbackRoutes = require("./routes/feedback");
+
 
 
 const app = express();
@@ -16,6 +18,8 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/calories", calorieRoutes);
 app.use("/api/weight", weightRoutes);
+app.use("/api/feedback", feedbackRoutes);
+
 
 mongoose
   .connect(process.env.MONGO_URI)
