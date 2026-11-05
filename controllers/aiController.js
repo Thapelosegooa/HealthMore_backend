@@ -57,12 +57,7 @@ const sendChatMessage = async (req, res) => {
     }
 
     // Validate history
-    console.log("========== CHAT DEBUG ==========");
-console.log("Plan type:", planType);
-console.log("Message:", message);
-console.log("History:", JSON.stringify(history, null, 2));
-console.log("History is array:", Array.isArray(history));
-console.log("================================");
+
     // Validate conversation history
     
 // Validate conversation history (OpenAI format)
@@ -90,8 +85,7 @@ if (!validHistory) {
 }
 
 
-    ///////////////////
-    console.log("History validation result:", validHistory);
+   
 
     // Retrieve authenticated user's profile
     const user = await User.findById(req.user.id)
