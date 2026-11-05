@@ -7,7 +7,7 @@ const authRoutes = require("./routes/auth");
 const calorieRoutes = require("./routes/calories");
 const weightRoutes = require("./routes/weight");
 const feedbackRoutes = require("./routes/feedback");
-
+const aiRoutes = require("./routes/aiRoutes");
 
 
 const app = express();
@@ -19,6 +19,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/calories", calorieRoutes);
 app.use("/api/weight", weightRoutes);
 app.use("/api/feedback", feedbackRoutes);
+app.use("/api/ai", aiRoutes);
 
 
 mongoose
