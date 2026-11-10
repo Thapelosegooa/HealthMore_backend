@@ -9,6 +9,29 @@ const auth = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
+// Get user profile
+router.get("/profile", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id)
+      .select("-password");
+
+    if (!user) {
+      return res.status(404).json({
+        msg: "User not found",
+      });
+    }
+
+    res.json(user);
+
+  } catch (err) {
+    console.log("Profile fetch error:", err);
+
+    res.status(500).json({
+      error: err.message,
+    });
+  }
+});
+
 // helper for today's date
 const getToday = () => new Date().toISOString().split("T")[0];
 
