@@ -8,6 +8,7 @@ const calorieRoutes = require("./routes/calories");
 const weightRoutes = require("./routes/weight");
 const feedbackRoutes = require("./routes/feedback");
 const aiRoutes = require("./routes/aiRoutes");
+const foodScannerRoutes = require("./routes/foodScanner");
 
 
 const app = express();
@@ -20,6 +21,7 @@ app.use("/api/calories", calorieRoutes);
 app.use("/api/weight", weightRoutes);
 app.use("/api/feedback", feedbackRoutes);
 app.use("/api/ai", aiRoutes);
+app.use("/api/food", foodScannerRoutes);
 
 
 mongoose
